@@ -1,0 +1,37 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.0.15:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 485-357-655
+INFO:werkzeug:192.168.0.15 - - [09/Sep/2025 16:13:11] "[31m[1mPOST /dbproj/user HTTP/1.1[0m" 405 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\ruimi\\OneDrive\\Ambiente de Trabalho\\2ºAno\\2ºSemestre\\BD\\Trabalho2\\Entrega\\demoApi.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 485-357-655
+INFO:logger:API stubs online: http://192.168.0.15:5000
+INFO:logger:API stubs online: http://192.168.0.15:5000
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.0.15:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 485-357-655
+INFO:werkzeug: * Detected change in 'C:\\Users\\ruimi\\OneDrive\\Ambiente de Trabalho\\2ºAno\\2ºSemestre\\BD\\Trabalho2\\Entrega\\demoApi.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 485-357-655
+INFO:logger:API stubs online: http://192.168.0.15:5000
+INFO:logger:API stubs online: http://192.168.0.15:5000
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.0.15:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 485-357-655
+INFO:werkzeug:192.168.0.15 - - [09/Sep/2025 16:15:08] "[31m[1mPOST /dbproj/user HTTP/1.1[0m" 405 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\ruimi\\OneDrive\\Ambiente de Trabalho\\2ºAno\\2ºSemestre\\BD\\Trabalho2\\Entrega\\demoApi.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+INFO:logger:API stubs online: http://192.168.0.15:5000
