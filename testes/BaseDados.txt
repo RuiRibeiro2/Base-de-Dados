@@ -1,0 +1,205 @@
+Here's the University Management System information structured in the same clear, bullet-point format as your example:
+
+### Plataforma:
+- **Sistema académico**: gere cursos, inscrições, horários e avaliações  
+- **Gestão financeira**: regista propinas, taxas de atividades e transações  
+- **Atividades extracurriculares**: clubs e desportos com taxas associadas  
+- **Relatórios**: médias de notas, aprovações por período, top estudantes  
+
+### Cursos:
+- Identificados por **códigos únicos**  
+- Cada edição tem:  
+  - Um **coordenador** e assistentes  
+  - Várias aulas (T/PL) com horários definidos  
+  - Salas com capacidade/locação específica  
+  - Pré-requisitos (outros cursos obrigatórios)  
+  - Limite de vagas por edição  
+- Associados a **múltiplos programas de graduação**  
+
+### Estudantes:
+- Perfil com:  
+  - Dados pessoais  
+  - Histórico académico  
+  - Conta financeira (atualizada via *triggers*)  
+- Inscrições:  
+  - Em programas de graduação (por staff) → gera dívida automática  
+  - Em cursos (selecionando aulas específicas)  
+    - Verifica pré-requisitos  
+    - Valida vagas disponíveis  
+    - Restrito ao programa ativo  
+- Participação em atividades extracurriculares:  
+  - Taxas refletidas na conta financeira  
+  - Cancelamentos geram reembolsos  
+
+### Docentes:
+- Submetem notas → atualizam:  
+  - Médias dos estudantes  
+  - Contagem de aprovações  
+- Acesso a relatórios por período letivo  
+
+### Staff Administrativo:
+- Criam perfis de estudantes  
+- Gerem inscrições em programas  
+- Acesso a todos os relatórios  
+
+### Subsistema Financeiro:
+- Contas de estudantes registam:  
+  - Propinas  
+  - Taxas de atividades  
+  - Outros encargos  
+- Transações automáticas para:  
+  - Inscrições em programas  
+  - Atividades extracurriculares  
+  - Cancelamentos  
+
+### Relatórios Automáticos:
+- **Top estudantes** por:  
+  - Média global  
+  - Distrito  
+- **Cursos com mais aprovações** (últimos 12 meses)  
+- **Progresso académico** por programa  
+
+---
+
+### Comparação com o Seu Exemplo Original:
+| **Categoria**       | **Sistema de Música**               | **Sistema Universitário**               |  
+|----------------------|-------------------------------------|-----------------------------------------|  
+| **Entidade Principal** | Artistas/Consumidores              | Estudantes/Docentes/Staff               |  
+| **Registo Financeiro** | Cartões pré-pagos                  | Contas com taxas automáticas (triggers) |  
+| **Relatórios**        | Top 10 músicas                     | Top estudantes por média/distrito       |  
+| **Restrições**        | Artistas ≠ Consumidores            | Estudantes só se inscrevem nos seus programas |  
+
+Quer que eu desenvolva alguma seção específica com mais detalhes (ex: como implementar os triggers financeiros ou os relatórios SQL)?
+
+Base de dados
+Divisão de tarefas(metam o nome à frente do que vão fazer)
+DBMS
+Rest API
+Authentification(isso é mais à frente)
+
+Final report(discotimos mais à frente que vai dar bastante trabalho, tem video a mostrar, …)
+
+
+CREATE TABLE users (
+	user_id	 INTEGER NOT NULL,
+	username TEXT NOT NULL,
+	password TEXT NOT NULL,
+	email	 TEXT,
+	PRIMARY KEY(user_id)
+);
+
+CREATE TABLE student_academicrecord_degreeprogram_financialaccount (
+	name							 TEXT NOT NULL,
+	birth_date						 DATE,
+	address							 TEXT,
+	academicrecord_record_id					 INTEGER NOT NULL,
+	academicrecord_average					 FLOAT(5) NOT NULL,
+	academicrecord_approved					 INTEGER NOT NULL,
+	academicrecord_semester					 INTEGER NOT NULL,
+	degreeprogram_financialaccount_degree_id			 SERIAL NOT NULL,
+	degreeprogram_financialaccount_name			 TEXT NOT NULL,
+	degreeprogram_financialaccount_tuition_fee		 FLOAT(10,2) NOT NULL,
+	degreeprogram_financialaccount_financialaccount_account_id INTEGER NOT NULL,
+	degreeprogram_financialaccount_financialaccount_balance	 FLOAT(10,2) NOT NULL,
+	admins_users_user_id					 INTEGER NOT NULL,
+	users_user_id						 INTEGER NOT NULL,
+	PRIMARY KEY(users_user_id)
+);
+
+CREATE TABLE instructor (
+	coordinator	 BOOL NOT NULL,
+	users_user_id INTEGER NOT NULL,
+	PRIMARY KEY(users_user_id)
+);
+
+CREATE TABLE admins (
+	users_user_id INTEGER NOT NULL,
+	PRIMARY KEY(users_user_id)
+);
+
+CREATE TABLE course (
+	code								 INTEGER,
+	name								 TEXT NOT NULL,
+	credits								 INTEGER NOT NULL,
+	student_academicrecord_degreeprogram_financialaccount_users_user_id INTEGER NOT NULL,
+	course_code							 INTEGER NOT NULL,
+	PRIMARY KEY(code)
+);
+
+CREATE TABLE courseedition (
+	edition	 SERIAL NOT NULL,
+	ano	 INTEGER NOT NULL,
+	capacity	 INTEGER NOT NULL,
+	schedule	 TEXT,
+	grade	 FLOAT(8) NOT NULL,
+	course_code INTEGER,
+	PRIMARY KEY(course_code)
+);
+
+CREATE TABLE class_classroom (
+	type			 TEXT NOT NULL,
+	classroom_room		 INTEGER NOT NULL,
+	classroom_capacity	 INTEGER NOT NULL,
+	classroom_location	 TEXT NOT NULL,
+	courseedition_course_code INTEGER,
+	PRIMARY KEY(courseedition_course_code)
+);
+
+CREATE TABLE activity (
+	activity_id SERIAL,
+	name	 TEXT NOT NULL,
+	fee	 FLOAT(10,2) NOT NULL,
+	PRIMARY KEY(activity_id)
+);
+
+CREATE TABLE activity_student_academicrecord_degreeprogram_financialaccount (
+	activity_activity_id						 INTEGER,
+	student_academicrecord_degreeprogram_financialaccount_users_user_id INTEGER NOT NULL,
+	PRIMARY KEY(activity_activity_id)
+);
+
+CREATE TABLE student_academicrecord_degreeprogram_financialaccount_course (
+	student_academicrecord_degreeprogram_financialaccount_users_user_id INTEGER,
+	course_code							 INTEGER,
+	PRIMARY KEY(student_academicrecord_degreeprogram_financialaccount_users_user_id,course_code)
+);
+
+CREATE TABLE instructor_courseedition (
+	instructor_users_user_id	 INTEGER,
+	courseedition_course_code INTEGER,
+	PRIMARY KEY(instructor_users_user_id,courseedition_course_code)
+);
+
+CREATE TABLE student_academicrecord_degreeprogram_financialaccount_activity (
+	student_academicrecord_degreeprogram_financialaccount_users_user_id INTEGER,
+	activity_activity_id						 INTEGER,
+	PRIMARY KEY(student_academicrecord_degreeprogram_financialaccount_users_user_id,activity_activity_id)
+);
+
+CREATE TABLE student_academicrecord_degreeprogram_financialaccount_courseedition (
+	student_academicrecord_degreeprogram_financialaccount_users_user_id INTEGER,
+	courseedition_course_code						 INTEGER,
+	PRIMARY KEY(student_academicrecord_degreeprogram_financialaccount_users_user_id,courseedition_course_code)
+);
+
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount ADD UNIQUE (academicrecord_record_id, degreeprogram_financialaccount_degree_id, degreeprogram_financialaccount_financialaccount_account_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_fk1 FOREIGN KEY (admins_users_user_id) REFERENCES admins(users_user_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_fk2 FOREIGN KEY (users_user_id) REFERENCES users(user_id);
+ALTER TABLE instructor ADD CONSTRAINT instructor_fk1 FOREIGN KEY (users_user_id) REFERENCES users(user_id);
+ALTER TABLE admins ADD CONSTRAINT admins_fk1 FOREIGN KEY (users_user_id) REFERENCES users(user_id);
+ALTER TABLE course ADD CONSTRAINT course_fk1 FOREIGN KEY (student_academicrecord_degreeprogram_financialaccount_users_user_id) REFERENCES student_academicrecord_degreeprogram_financialaccount(users_user_id);
+ALTER TABLE course ADD CONSTRAINT course_fk2 FOREIGN KEY (course_code) REFERENCES course(code);
+ALTER TABLE courseedition ADD CONSTRAINT courseedition_fk1 FOREIGN KEY (course_code) REFERENCES course(code);
+ALTER TABLE class_classroom ADD UNIQUE (classroom_room);
+ALTER TABLE class_classroom ADD CONSTRAINT class_classroom_fk1 FOREIGN KEY (courseedition_course_code) REFERENCES courseedition(course_code);
+ALTER TABLE activity_student_academicrecord_degreeprogram_financialaccount ADD UNIQUE (student_academicrecord_degreeprogram_financialaccount_users_user_id);
+ALTER TABLE activity_student_academicrecord_degreeprogram_financialaccount ADD CONSTRAINT activity_student_academicrecord_degreeprogram_financialaccount_fk1 FOREIGN KEY (activity_activity_id) REFERENCES activity(activity_id);
+ALTER TABLE activity_student_academicrecord_degreeprogram_financialaccount ADD CONSTRAINT activity_student_academicrecord_degreeprogram_financialaccount_fk2 FOREIGN KEY (student_academicrecord_degreeprogram_financialaccount_users_user_id) REFERENCES student_academicrecord_degreeprogram_financialaccount(users_user_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_course ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_course_fk1 FOREIGN KEY (student_academicrecord_degreeprogram_financialaccount_users_user_id) REFERENCES student_academicrecord_degreeprogram_financialaccount(users_user_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_course ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_course_fk2 FOREIGN KEY (course_code) REFERENCES course(code);
+ALTER TABLE instructor_courseedition ADD CONSTRAINT instructor_courseedition_fk1 FOREIGN KEY (instructor_users_user_id) REFERENCES instructor(users_user_id);
+ALTER TABLE instructor_courseedition ADD CONSTRAINT instructor_courseedition_fk2 FOREIGN KEY (courseedition_course_code) REFERENCES courseedition(course_code);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_activity ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_activity_fk1 FOREIGN KEY (student_academicrecord_degreeprogram_financialaccount_users_user_id) REFERENCES student_academicrecord_degreeprogram_financialaccount(users_user_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_activity ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_activity_fk2 FOREIGN KEY (activity_activity_id) REFERENCES activity(activity_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_courseedition ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_courseedition_fk1 FOREIGN KEY (student_academicrecord_degreeprogram_financialaccount_users_user_id) REFERENCES student_academicrecord_degreeprogram_financialaccount(users_user_id);
+ALTER TABLE student_academicrecord_degreeprogram_financialaccount_courseedition ADD CONSTRAINT student_academicrecord_degreeprogram_financialaccount_courseedition_fk2 FOREIGN KEY (courseedition_course_code) REFERENCES courseedition(course_code);
